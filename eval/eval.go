@@ -82,10 +82,9 @@ func toValues(args ...string) []reflect.Value {
 	return values
 }
 
-// Strut is a generic implementation of Evaluator.
-type Struct struct {
-	obj interface{}
-}
+// Struct is a generic implementation of Evaluator. It can be used as a wrapper
+// for any type.
+type Struct struct{ obj interface{} }
 
 // Eval return the attribute value or the method return corresponding to args.
 func (e *Struct) Eval(args ...string) string {
