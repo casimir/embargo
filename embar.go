@@ -9,14 +9,14 @@ import (
 	"github.com/casimir/embargo/eval"
 	"github.com/casimir/embargo/misc"
 	"github.com/casimir/embargo/net"
+	"github.com/casimir/embargo/proc"
 )
 
 // TODO
 // proc.disk   → df
 // proc.CPU    → /proc/cpuinfo || ps aux (load in '%'?)
 // proc.mem    → /proc/meminfo
-// proc.load   → /proc/loadavg || uptime
-// proc.uptime → uptime
+// proc.uptime → /proc/uptime
 // proc.heavy  → glances ?
 // misc.music  → github.com/lann/mpris2-go
 
@@ -25,15 +25,17 @@ func init() {
 
 	eval.Register("color", color.Out)
 	eval.Register("net", net.Out)
+	eval.Register("proc", proc.Out)
 	eval.Register(eval.DefaultModule, misc.Out)
 }
 
 func main() {
 	color.Load(color.FormatDzen)
 
-	sep := "${color.begin blue}|${color.end}"
+	sep := "${color.begin grey60} · ${color.end}"
 	line := strings.Join([]string{
 		"${color.begin green}${net.wlo1 ssid} ${net.wlo1 ip}${color.end}",
+		"${proc.load 1}",
 		"${time 'Mon _2'}",
 		"${time '15:04'}",
 	}, sep)
