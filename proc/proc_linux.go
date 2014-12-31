@@ -19,15 +19,16 @@ func load(t string) string {
 		return "no load"
 	}
 	parts := strings.Fields(string(raw))
+	ret := parts[0]
 
 	switch t {
 	case Load1:
-		return parts[0]
+		ret = parts[0]
 	case Load5:
-		return parts[1]
+		ret = parts[1]
 	case Load15:
-		return parts[2]
-	default:
-		return parts[0]
+		ret = parts[2]
 	}
+	// TODO add critical color when > n + runtime.NumCPU
+	return ret
 }
