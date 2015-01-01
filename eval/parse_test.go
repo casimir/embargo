@@ -22,7 +22,7 @@ func TestParse(t *testing.T) {
 		So(parts[keys[0]].Tokens, ShouldResemble, []string{"wlan0", "speed"})
 
 		So(keys[1], ShouldEqual, "${"+parts[keys[1]].Text+"}")
-		So(parts[keys[1]].Module, ShouldBeEmpty)
+		So(parts[keys[1]].Module, ShouldEqual, DefaultModule)
 		So(parts[keys[1]].Text, ShouldEqual, "aaa${aaa")
 		So(parts[keys[1]].Tokens, ShouldResemble, []string{"aaa${aaa"})
 	})
