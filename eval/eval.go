@@ -2,7 +2,6 @@
 package eval
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"reflect"
@@ -54,17 +53,17 @@ func evalMethod(obj interface{}, name string, args ...string) string {
 
 func checkSignature(tmethod reflect.Type, params []string) error {
 	if tmethod.NumIn() != len(params) || tmethod.NumOut() < 1 {
-		return errors.New(fmt.Sprintf("Count mismatch: {in: %d, out: %d} ≠ {in: %d, out: %d}",
-			tmethod.NumIn(), len(params), tmethod.NumOut(), 1))
+		return fmt.Errorf("Count mismatch: {in: %d, out: %d} ≠ {in: %d, out: %d}",
+			tmethod.NumIn(), len(params), tmethod.NumOut(), 1)
 	}
 	if tmethod.Out(0).Kind() != reflect.String {
-		return errors.New(fmt.Sprintf("Type mismatch (return): %s ≠ string",
-			tmethod.Out(0).Kind()))
+		return fmt.Errorf("Type mismatch (return): %s ≠ string",
+			tmethod.Out(0).Kind())
 	}
 	for i, it := range params {
 		if tmethod.In(i) != reflect.TypeOf(it) {
-			return errors.New(fmt.Sprintf("Type mismatch (%d): %s ≠ %s",
-				i+1, tmethod.In(i).Kind(), reflect.TypeOf(it).Kind()))
+			return fmt.Errorf("Type mismatch (%d): %s ≠ %s",
+				i+1, tmethod.In(i).Kind(), reflect.TypeOf(it).Kind())
 		}
 	}
 	return nil
@@ -90,9 +89,8 @@ type Struct struct{ obj interface{} }
 func (e *Struct) Eval(args ...string) string {
 	if len(args) == 1 {
 		return evalAttr(e.obj, args[0])
-	} else {
-		return evalMethod(e.obj, args[0], args[1:]...)
 	}
+	return evalMethod(e.obj, args[0], args[1:]...)
 }
 
 // New create a new Struct.
@@ -100,7 +98,7 @@ func New(obj interface{}) Evaluator {
 	return &Struct{obj: obj}
 }
 
-var modules map[string]Evaluator = map[string]Evaluator{}
+var modules = map[string]Evaluator{}
 
 // Register adds a module to the list used by Eval().
 // Modules are recognized by its name. Adding a module with the same name will

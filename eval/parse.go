@@ -9,12 +9,14 @@ import (
 var DefaultModule string
 
 type (
+	// Token represents a part of an evaluated block.
 	Token struct {
 		Module string
 		Text   string
 		Tokens []string
 	}
 
+	// TokenList represents a list of token. No kidding.
 	TokenList map[string]Token
 )
 

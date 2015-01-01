@@ -29,7 +29,7 @@ func TestParse(t *testing.T) {
 }
 
 func keys(vl TokenList) (keys []string) {
-	for k, _ := range vl {
+	for k := range vl {
 		keys = append(keys, k)
 	}
 	return
