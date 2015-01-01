@@ -13,7 +13,11 @@ func (o Output) Eval(data ...string) string {
 		return ""
 	}
 	idx := data[0]
-	return Out[idx].Eval(data[1:]...)
+	i, ok := Out[idx]
+	if !ok {
+		log.Fatal("net: Unknown interface: ", idx)
+	}
+	return i.Eval(data[1:]...)
 }
 
 var Out Output = Output{}

@@ -40,7 +40,7 @@ func init() {
 func defaultLine() string {
 	sep := "${color.begin blue} · ${color.end}"
 	return strings.Join([]string{
-		//"${color.begin green}${net.wlo1 ssid} ${net.wlo1 ip}${color.end}",
+		"${color.begin green}${net.wlo1 ssid} ${net.wlo1 ip}${color.end}",
 		"${proc.load 1}",
 		"${time 'Mon _2'}",
 		"${time '15:04'}",
