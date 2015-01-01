@@ -8,4 +8,4 @@ func (o Output) Load(t string) string {
 	return load(t)
 }
 
-var Out eval.Evaluator = eval.New(Output{})
+var Out = eval.New(Output{})

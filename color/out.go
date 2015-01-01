@@ -26,7 +26,7 @@ func (o Output) Eval(data ...string) string {
 	return o.module.Eval(data...)
 }
 
-var Out *Output = &Output{module: eval.New(None{})}
+var Out = &Output{module: eval.New(None{})}
 
 func Load(format string) {
 	switch format {

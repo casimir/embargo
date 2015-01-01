@@ -8,4 +8,4 @@ func (o Output) Time(layout string) string {
 	return formatTime(layout)
 }
 
-var Out eval.Evaluator = eval.New(Output{})
+var Out = eval.New(Output{})

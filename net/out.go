@@ -20,7 +20,7 @@ func (o Output) Eval(data ...string) string {
 	return i.Eval(data[1:]...)
 }
 
-var Out Output = Output{}
+var Out = Output{}
 
 func init() {
 	il, err := NewInterfaces()
