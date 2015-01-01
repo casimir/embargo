@@ -10,7 +10,8 @@ before_install:
     - if ! go get code.google.com/p/go.tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
 
 install:
-    - go get -t
+    - go get github.com/smartystreets/goconvey/convey
+    - go get gopkg.in/alecthomas/kingpin.v1
 
 script:
     - ./covergen.sh
