@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	FormatNone = iota
-	FormatDzen
-	FormatTerm
+	FormatNone = "none"
+	FormatDzen = "dzen2"
+	FormatTerm = "term"
 )
 
 type None struct {
@@ -26,9 +26,9 @@ func (o Output) Eval(data ...string) string {
 	return o.module.Eval(data...)
 }
 
-var Out *Output = &Output{}
+var Out *Output = &Output{module: eval.New(None{})}
 
-func Load(format int) {
+func Load(format string) {
 	switch format {
 	case FormatDzen:
 		log.Println("Color mode: Dzen")
@@ -39,8 +39,4 @@ func Load(format int) {
 	default:
 		Out.module = eval.New(None{})
 	}
-}
-
-func init() {
-	Load(FormatNone)
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/casimir/embargo/misc"
 	"github.com/casimir/embargo/net"
 	"github.com/casimir/embargo/proc"
+	"gopkg.in/alecthomas/kingpin.v1"
 )
 
 // TODO
@@ -20,6 +21,13 @@ import (
 // proc.heavy  → glances ?
 // misc.music  → github.com/lann/mpris2-go
 
+var (
+	aFormat   = kingpin.Flag("format", "Format type of the output.").Short('f').Default(color.FormatNone).Enum(color.FormatNone, color.FormatDzen, color.FormatTerm)
+	aInterval = kingpin.Flag("interval", "Seconds between refresh.").Short('i').Default("1s").Duration()
+	aPrint    = kingpin.Flag("print", "Print one line and quit.").Short('p').Bool()
+	aLine     = kingpin.Arg("line", "Line to evaluate.").Default(defaultLine()).String()
+)
+
 func init() {
 	eval.DefaultModule = "misc"
 
@@ -29,18 +37,25 @@ func init() {
 	eval.Register(eval.DefaultModule, misc.Out)
 }
 
-func main() {
-	color.Load(color.FormatDzen)
-
-	sep := "${color.begin grey60} · ${color.end}"
-	line := strings.Join([]string{
-		"${color.begin green}${net.wlo1 ssid} ${net.wlo1 ip}${color.end}",
+func defaultLine() string {
+	sep := "${color.begin blue} · ${color.end}"
+	return strings.Join([]string{
+		//"${color.begin green}${net.wlo1 ssid} ${net.wlo1 ip}${color.end}",
 		"${proc.load 1}",
 		"${time 'Mon _2'}",
 		"${time '15:04'}",
 	}, sep)
-	for {
-		fmt.Println(eval.Eval(line))
-		time.Sleep(time.Second)
+}
+
+func main() {
+	kingpin.Parse()
+	color.Load(*aFormat)
+	if *aPrint {
+		fmt.Println(eval.Eval(*aLine))
+	} else {
+		for {
+			fmt.Println(eval.Eval(*aLine))
+			time.Sleep(*aInterval)
+		}
 	}
 }
