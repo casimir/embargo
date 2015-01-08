@@ -70,6 +70,7 @@ func TestEval(t *testing.T) {
 	Convey("It should return attribute or method result as string from its name.", t, func() {
 		So(Eval("${test.strAttr}"), ShouldEqual, testVar.StrAttr)
 		So(Eval("${test.dumbMethod a b}"), ShouldEqual, "DumbOK"+testVar.StrAttr)
+		So(Eval("${test.strAttr a}"), ShouldEqual, NopeStr)
 		So(Eval("${nope.toto}"), ShouldEqual, "${nope.toto}")
 	})
 }

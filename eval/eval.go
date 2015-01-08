@@ -52,6 +52,9 @@ func evalMethod(obj interface{}, name string, args ...string) string {
 }
 
 func checkSignature(tmethod reflect.Type, params []string) error {
+	if tmethod.Kind() != reflect.Func {
+		return fmt.Errorf("Not a function: %s", tmethod)
+	}
 	if tmethod.NumIn() != len(params) || tmethod.NumOut() < 1 {
 		return fmt.Errorf("Count mismatch: {in: %d, out: %d} ≠ {in: %d, out: %d}",
 			tmethod.NumIn(), len(params), tmethod.NumOut(), 1)
